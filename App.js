@@ -1,7 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View , Image, ImageBackground }from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View , Image, ImageBackground , TextInput }from 'react-native';
+
+
 
 export default function App() {
+  const [texto,setTexto] = useState('');
+
+  function optenerTexto (obtener_info) {
+   setTexto(obtener_info); 
+   console.log(texto);
+  }
+
+  const [Num,setNum] = useState('');
+
+  function optenerNum (obtener_Num) {
+   setNum(obtener_Num); 
+   console.log(Num);
+
+     // Elimina los espacios existentes antes de formatear
+  const numeroSinEspacios = obtener_Num.replace(/\s/g, '');
+  // Agrega un espacio cada cuatro dígitos
+  const numeroFormateado = numeroSinEspacios.replace(/(\d{4})/g, '$1 ');
+  setNum(numeroFormateado.trim()); // trim para eliminar posibles espacios al final
+  console.log(Num);
+  }
+
+
+  const [fecha,setFecha] = useState('');
+
+  function optenerFecha (obtener_Fecha) {
+   setFecha(obtener_Fecha); 
+   const numeroSinEspacios = obtener_Fecha.replace(/\s/g, '');
+   const numeroFormateado = numeroSinEspacios.replace(/(\d{2})(?=\d{2,}$)/g, '$1/');
+   setFecha(numeroFormateado.trim()); // trim para eliminar posibles espacios al final
+
+  console.log(fecha);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.Container_card}>
@@ -16,22 +52,24 @@ export default function App() {
       <Image style={styles.logo} source={require('./assets/img/logo_card.png')}></Image>
       </View>
       <View style={styles.Container_Numeros}>
-        <Text style={styles.Texto}>****  ****  ****  2018</Text>
+        <Text style={styles.Texto}>{Num}</Text>
       </View>
       <View style={styles.Container_Nombre}>
-        <Text style={styles.Texto_Nombre}>Michael Alexander Sevilla Martinez</Text>
-        <Text style={styles.Texto_Fecha}>05/08</Text>
+        <Text style={styles.Texto_Nombre}>{texto.toUpperCase()}</Text>
+        <Text style={styles.Texto_Fecha}>{fecha}</Text>
       </View>
       </ImageBackground>
       </View>
       </View>
-    
-
-
-      
-     
-      
+  
       </View>
+
+      <View style={styles.Contenedor_input}>
+      <TextInput style={styles.Input} maxLength={19} onChangeText={optenerNum} placeholder='Numero de tarjeta' value={Num}></TextInput>
+        <TextInput style={styles.Input} maxLength={26} onChangeText={optenerTexto} placeholder='Nombre Completo' value={texto}></TextInput>
+        <TextInput style={styles.Input} maxLength={4} onChangeText={optenerFecha} placeholder='Fecha de vencimiento' ></TextInput>
+      </View>
+
       </View>
      
   );
@@ -46,7 +84,7 @@ const styles = StyleSheet.create({
   },
   Container_card:{
     width : '100%',
-    height: 500,
+    height: 300,
    // backgroundColor: 'red', 
     justifyContent: 'center', alignItems : 'center'
   },
@@ -88,4 +126,9 @@ const styles = StyleSheet.create({
      Texto_Fecha:{
       fontSize : 15 , fontWeight : 'bold' , marginLeft : 15
      },
+     Contenedor_input:{
+      height: 200 , width : '100%', alignItems : 'center'
+     },Input:{
+      width: '95%', height : 60 , borderBottomWidth: 1
+     }
 });
